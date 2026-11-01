@@ -1,4 +1,4 @@
-import{B as e}from"./chunk-CrH6vzLt.js";var t={"bili-comments-header-renderer":`
+import{L as e}from"./chunk-iV7WnVhk.js";var t={"bili-comments-header-renderer":`
     #navbar { align-items: center !important; margin: 0 0 20px !important; padding-top: 0 !important; }
     #title { display: flex !important; align-items: baseline !important; gap: 8px !important; }
     #title h2 { margin: 0 !important; font: 400 24px/1.2 var(--m-serif, serif) !important; letter-spacing: .04em !important; color: var(--m-ink) !important; }

@@ -11,6 +11,7 @@ import {
   type WebContentsViewConstructorOptions,
 } from 'electron';
 import path from 'node:path';
+import { MarginUpdater } from './margin-updater';
 import {
   HOME_URL,
   TAB_STRIP_HEIGHT,
@@ -29,6 +30,7 @@ let tabs: Tab[] = [];
 let activeId = 0;
 let popup: WebContentsView | null = null;
 let extensionUrl = '';
+let marginUpdater: MarginUpdater;
 let videoFullScreen = false;
 const PARTITION = 'persist:bilibili';
 const DESKTOP_PAGE_WIDTH = 1920;
@@ -392,6 +394,10 @@ function installMenu(): void {
             },
           },
           { label: 'MARGIN 设置', click: togglePopup },
+          {
+            label: '检查 MARGIN 更新…',
+            click: () => void marginUpdater.check(true),
+          },
           { type: 'separator' },
           {
             label: '下一个标签页',
@@ -516,12 +522,22 @@ if (!app.requestSingleInstanceLock()) {
       const extensionPath = app.isPackaged
         ? path.join(process.resourcesPath, 'margin')
         : path.join(app.getAppPath(), 'extensions/margin');
-      const extension = await session
-        .fromPartition(PARTITION)
-        .extensions.loadExtension(extensionPath);
+      marginUpdater = new MarginUpdater({
+        bundledPath: extensionPath,
+        storagePath: path.join(app.getPath('userData'), 'extensions', 'margin'),
+        session: session.fromPartition(PARTITION),
+        getWindow: () => win,
+        beforeUpdate: closePopup,
+        afterUpdate: (extension) => {
+          extensionUrl = extension.url;
+          for (const tab of tabs) tab.view.webContents.reload();
+        },
+      });
+      const extension = await marginUpdater.load();
       extensionUrl = extension.url;
       installMenu();
       await createWindow();
+      marginUpdater.start();
       app.on('activate', () => {
         if (!win) void createWindow();
       });
