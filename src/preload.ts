@@ -10,11 +10,6 @@ const browser: BrowserAPI = {
     ipcRenderer.on('browser:state', handler);
     return () => ipcRenderer.removeListener('browser:state', handler);
   },
-  onFocusAddress: (listener) => {
-    const handler = () => listener();
-    ipcRenderer.on('browser:focus-address', handler);
-    return () => ipcRenderer.removeListener('browser:focus-address', handler);
-  },
 };
 
 contextBridge.exposeInMainWorld('browser', browser);

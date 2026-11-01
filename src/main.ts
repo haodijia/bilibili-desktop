@@ -13,7 +13,7 @@ import {
 import path from 'node:path';
 import {
   HOME_URL,
-  TOOLBAR_HEIGHT,
+  TAB_STRIP_HEIGHT,
   type BrowserAction,
   type TabState,
 } from './browser';
@@ -74,13 +74,9 @@ function activeTab(): Tab | undefined {
 
 function publish(): void {
   if (!win || win.isDestroyed()) return;
-  const contents = activeTab()?.view.webContents;
   win.webContents.send('browser:state', {
     tabs: tabs.map((tab) => tab.state),
     activeId,
-    canGoBack: contents?.navigationHistory.canGoBack() ?? false,
-    canGoForward: contents?.navigationHistory.canGoForward() ?? false,
-    marginOpen: popup !== null,
   });
   win.setTitle(`${activeTab()?.state.title ?? '哔哩哔哩'} — Bilibili`);
 }
@@ -88,7 +84,7 @@ function publish(): void {
 function layout(): void {
   if (!win) return;
   const [width, height] = win.getContentSize();
-  const top = videoFullScreen ? 0 : TOOLBAR_HEIGHT;
+  const top = videoFullScreen ? 0 : TAB_STRIP_HEIGHT;
   for (const tab of tabs) {
     tab.view.setBounds({
       x: 0,
@@ -106,7 +102,6 @@ function closePopup(): void {
   win.contentView.removeChildView(popup);
   popup.webContents.close();
   popup = null;
-  publish();
 }
 
 function selectTab(id: number, focus = true): void {
@@ -172,13 +167,9 @@ function configureContents(contents: WebContents): void {
   });
   contents.on('before-input-event', (event, input) => {
     if (input.type !== 'keyDown') return;
-    const command = process.platform === 'darwin' ? input.meta : input.control;
     if (input.key === 'Escape' && popup) {
       event.preventDefault();
       closePopup();
-    } else if (command && input.key.toLowerCase() === 'l') {
-      event.preventDefault();
-      focusAddress();
     }
   });
 }
@@ -300,12 +291,6 @@ function createTab(
   return tab;
 }
 
-function focusAddress(): void {
-  closePopup();
-  win?.webContents.focus();
-  win?.webContents.send('browser:focus-address');
-}
-
 function togglePopup(): void {
   if (popup) return closePopup();
   if (!win) return;
@@ -327,11 +312,9 @@ function togglePopup(): void {
       dialog.showErrorBox('MARGIN 打开失败', String(error));
     });
   popup.webContents.focus();
-  publish();
 }
 
 function act(action: BrowserAction): void {
-  const contents = activeTab()?.view.webContents;
   switch (action.type) {
     case 'new':
       createTab(HOME_URL);
@@ -342,38 +325,6 @@ function act(action: BrowserAction): void {
     case 'close':
       closeTab(action.id);
       break;
-    case 'back':
-      if (contents?.navigationHistory.canGoBack())
-        contents.navigationHistory.goBack();
-      break;
-    case 'forward':
-      if (contents?.navigationHistory.canGoForward())
-        contents.navigationHistory.goForward();
-      break;
-    case 'reload':
-      if (contents?.isLoading()) contents.stop();
-      else contents?.reload();
-      break;
-    case 'home':
-      if (contents) void contents.loadURL(HOME_URL).catch(() => {});
-      break;
-    case 'margin':
-      togglePopup();
-      break;
-    case 'navigate': {
-      if (typeof action.value !== 'string' || !contents) break;
-      const value = action.value.trim();
-      if (!value) break;
-      let url: string;
-      if (/^https?:\/\//i.test(value)) url = value;
-      else if (/^[\w-]+(?:\.[\w-]+)+(?:[:/].*)?$/.test(value))
-        url = `https://${value}`;
-      else
-        url = `https://search.bilibili.com/all?keyword=${encodeURIComponent(value)}`;
-      if (isPageURL(url)) void contents.loadURL(url).catch(() => {});
-      contents.focus();
-      break;
-    }
   }
 }
 
@@ -410,12 +361,18 @@ function installMenu(): void {
           {
             label: '后退',
             accelerator: 'CmdOrCtrl+[',
-            click: () => act({ type: 'back' }),
+            click: () => {
+              const history = activeTab()?.view.webContents.navigationHistory;
+              if (history?.canGoBack()) history.goBack();
+            },
           },
           {
             label: '前进',
             accelerator: 'CmdOrCtrl+]',
-            click: () => act({ type: 'forward' }),
+            click: () => {
+              const history = activeTab()?.view.webContents.navigationHistory;
+              if (history?.canGoForward()) history.goForward();
+            },
           },
           {
             label: '重新加载',
@@ -427,7 +384,14 @@ function installMenu(): void {
             accelerator: 'CmdOrCtrl+Shift+R',
             click: () => activeTab()?.view.webContents.reloadIgnoringCache(),
           },
-          { label: '地址栏', accelerator: 'CmdOrCtrl+L', click: focusAddress },
+          {
+            label: '哔哩哔哩首页',
+            click: () => {
+              const contents = activeTab()?.view.webContents;
+              if (contents) void contents.loadURL(HOME_URL).catch(() => {});
+            },
+          },
+          { label: 'MARGIN 设置', click: togglePopup },
           { type: 'separator' },
           {
             label: '下一个标签页',

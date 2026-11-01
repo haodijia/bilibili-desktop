@@ -1,12 +1,6 @@
 import type { BrowserAction, BrowserState } from './browser';
 
 const tabList = document.querySelector<HTMLDivElement>('#tabs')!;
-const address = document.querySelector<HTMLInputElement>('#address')!;
-const status = document.querySelector<HTMLSpanElement>('#status')!;
-const back = document.querySelector<HTMLButtonElement>('#back')!;
-const forward = document.querySelector<HTMLButtonElement>('#forward')!;
-const reload = document.querySelector<HTMLButtonElement>('#reload')!;
-const margin = document.querySelector<HTMLButtonElement>('#margin')!;
 let currentId = 0;
 const tabElements = new Map<number, HTMLDivElement>();
 
@@ -14,29 +8,9 @@ function send(action: BrowserAction): void {
   window.browser.act(action);
 }
 
-for (const [id, type] of [
-  ['new-tab', 'new'],
-  ['back', 'back'],
-  ['forward', 'forward'],
-  ['reload', 'reload'],
-  ['home', 'home'],
-  ['margin', 'margin'],
-] as const) {
-  document.getElementById(id)!.addEventListener('click', () => send({ type }));
-}
-
-document.querySelector('#address-form')!.addEventListener('submit', (event) => {
-  event.preventDefault();
-  send({ type: 'navigate', value: address.value });
-  address.blur();
-});
-address.addEventListener('focus', () => address.select());
-address.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    address.blur();
-    send({ type: 'select', id: currentId });
-  }
-});
+document
+  .getElementById('new-tab')!
+  .addEventListener('click', () => send({ type: 'new' }));
 
 tabList.addEventListener('keydown', (event) => {
   const elements = [...tabElements.values()];
@@ -56,7 +30,6 @@ tabList.addEventListener('keydown', (event) => {
 });
 
 function render(state: BrowserState): void {
-  const active = state.tabs.find((tab) => tab.id === state.activeId);
   const changed = currentId !== state.activeId;
   currentId = state.activeId;
   for (const [id, element] of tabElements) {
@@ -102,7 +75,8 @@ function render(state: BrowserState): void {
     element.classList.toggle('loading', tab.loading);
     element.setAttribute('aria-selected', String(tab.id === state.activeId));
     element.tabIndex = tab.id === state.activeId ? 0 : -1;
-    element.title = `${tab.title}\n${tab.url}`;
+    element.title = [tab.title, tab.url, tab.error].filter(Boolean).join('\n');
+    element.classList.toggle('error', Boolean(tab.error));
     element.querySelector('.tab-icon')!.textContent = tab.loading
       ? ''
       : tab.audible
@@ -113,17 +87,6 @@ function render(state: BrowserState): void {
       .querySelector('button')!
       .setAttribute('aria-label', `关闭 ${tab.title}`);
   }
-  if (document.activeElement !== address || changed)
-    address.value = active?.url ?? '';
-  back.disabled = !state.canGoBack;
-  forward.disabled = !state.canGoForward;
-  reload.classList.toggle('is-loading', active?.loading ?? false);
-  reload.setAttribute('aria-label', active?.loading ? '停止加载' : '重新加载');
-  reload.title = active?.loading ? '停止加载' : '重新加载 (⌘R)';
-  margin.setAttribute('aria-expanded', String(state.marginOpen));
-  status.textContent = active?.error ?? '';
-  status.hidden = !active?.error;
-  address.title = active?.error || active?.url || '';
   if (changed)
     tabElements
       .get(state.activeId)
@@ -131,8 +94,4 @@ function render(state: BrowserState): void {
 }
 
 window.browser.onState(render);
-window.browser.onFocusAddress(() => {
-  address.focus();
-  address.select();
-});
 window.browser.ready();
