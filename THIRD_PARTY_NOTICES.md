@@ -2,7 +2,7 @@
 
 ## 映间 MARGIN
 
-Bilibili Desktop 的网页重设计与大部分网页增强功能来自 **映间 MARGIN**，不是本项目重新实现的功能。
+Bilibili Desktop 的网页重设计与网页增强功能由 **映间 MARGIN** 提供。
 
 - 项目：<https://github.com/jiuyang5354/bilibili-margin>
 - 作者：jiuyang5354
@@ -39,6 +39,6 @@ MARGIN 随包提供字体及子集；它们不受本项目代码的 MIT 许可�
 
 Bilibili Desktop 是独立开发的非官方客户端，与哔哩哔哩、MARGIN 作者不存在官方隶属、合作或背书关系。`bilibili`、哔哩哔哩及网站展示的标识、视频、图片、弹幕等内容，其权利归各自权利人所有。
 
-应用图标与 README 示意图由本项目以矢量图形绘制；示意图不使用参考项目的截图或第三方视频封面。网页实际显示的内容由 B 站提供，访问和使用仍适用 B 站的相关规则。
+应用图标与界面示意图为本项目绘制的矢量图，示意图仅用于功能说明。网页实际显示的内容由 B 站提供，访问和使用仍适用 B 站的相关规则。
 
 如发现署名、许可证或素材归属问题，请通过 [Issue](https://github.com/haodijia/bilibili-desktop/issues) 提供具体文件、来源及权利说明。
