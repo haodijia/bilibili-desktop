@@ -21,6 +21,7 @@ import {
 interface Tab {
   view: WebContentsView;
   state: TabState;
+  zoomAdjustment: number;
 }
 
 let win: BrowserWindow | null = null;
@@ -30,6 +31,31 @@ let popup: WebContentsView | null = null;
 let extensionUrl = '';
 let videoFullScreen = false;
 const PARTITION = 'persist:bilibili';
+const DESKTOP_PAGE_WIDTH = 1920;
+
+function basePageZoom(): number {
+  return Math.min(1, win!.getContentSize()[0] / DESKTOP_PAGE_WIDTH);
+}
+
+function fitPage(tab: Tab): void {
+  const factor = Math.max(
+    0.25,
+    Math.min(5, basePageZoom() * tab.zoomAdjustment),
+  );
+  if (Math.abs(tab.view.webContents.getZoomFactor() - factor) > 0.0001) {
+    tab.view.webContents.setZoomFactor(factor);
+  }
+}
+
+function zoomPage(step: number | 'reset'): void {
+  const tab = activeTab();
+  if (!tab) return;
+  tab.zoomAdjustment = step === 'reset' ? 1 : tab.zoomAdjustment * 1.2 ** step;
+  tab.zoomAdjustment =
+    Math.max(0.25, Math.min(5, basePageZoom() * tab.zoomAdjustment)) /
+    basePageZoom();
+  fitPage(tab);
+}
 
 function isPageURL(value: string): boolean {
   try {
@@ -70,6 +96,7 @@ function layout(): void {
       width,
       height: Math.max(0, height - top),
     });
+    fitPage(tab);
   }
   popup?.setBounds({ x: width - 320, y: top, width: 304, height: 330 });
 }
@@ -116,6 +143,8 @@ function configureContents(contents: WebContents): void {
       overrideBrowserWindowOptions: {
         webPreferences: {
           partition: PARTITION,
+          zoomMode: 'isolated',
+          zoomFactor: basePageZoom(),
           nodeIntegration: false,
           contextIsolation: true,
           sandbox: true,
@@ -165,6 +194,8 @@ function createTab(
     webPreferences: {
       ...options?.webPreferences,
       partition: PARTITION,
+      zoomMode: 'isolated',
+      zoomFactor: basePageZoom(),
       preload: undefined,
       nodeIntegration: false,
       contextIsolation: true,
@@ -172,8 +203,10 @@ function createTab(
     },
   });
   const contents = view.webContents;
+  contents.setZoomMode('isolated');
   const tab: Tab = {
     view,
+    zoomAdjustment: 1,
     state: {
       id: contents.id,
       title: '新标签页',
@@ -203,7 +236,10 @@ function createTab(
     update();
   });
   contents.on('did-stop-loading', update);
-  contents.on('did-navigate', update);
+  contents.on('did-navigate', () => {
+    fitPage(tab);
+    update();
+  });
   contents.on('did-navigate-in-page', update);
   contents.on('media-started-playing', update);
   contents.on('media-paused', update);
@@ -415,23 +451,17 @@ function installMenu(): void {
           {
             label: '放大',
             accelerator: 'CmdOrCtrl+Plus',
-            click: () => {
-              const c = activeTab()?.view.webContents;
-              if (c) c.setZoomLevel(c.getZoomLevel() + 0.5);
-            },
+            click: () => zoomPage(0.5),
           },
           {
             label: '缩小',
             accelerator: 'CmdOrCtrl+-',
-            click: () => {
-              const c = activeTab()?.view.webContents;
-              if (c) c.setZoomLevel(c.getZoomLevel() - 0.5);
-            },
+            click: () => zoomPage(-0.5),
           },
           {
-            label: '实际大小',
+            label: '恢复自动适配',
             accelerator: 'CmdOrCtrl+0',
-            click: () => activeTab()?.view.webContents.setZoomLevel(0),
+            click: () => zoomPage('reset'),
           },
           { role: 'togglefullscreen' },
           {
