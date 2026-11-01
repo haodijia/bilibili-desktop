@@ -1,7 +1,7 @@
 {
   "name": "bili-desktop",
   "productName": "Bilibili",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "支持多标签页与 MARGIN 扩展的哔哩哔哩桌面浏览器",
   "keywords": [],
@@ -15,15 +15,14 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "release": "electron-forge release",
+    "release": "gh workflow run release.yml",
     "lint": "oxlint && oxfmt --check",
     "lint:fix": "oxlint --fix && oxfmt --write",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@electron-forge/cli": "^8.0.1",
-    "@electron-forge/maker-deb": "^8.0.1",
-    "@electron-forge/maker-rpm": "^8.0.1",
+    "@electron-forge/maker-dmg": "^8.0.1",
     "@electron-forge/maker-squirrel": "^8.0.1",
     "@electron-forge/maker-zip": "^8.0.1",
     "@electron-forge/plugin-auto-unpack-natives": "^8.0.1",
@@ -41,5 +40,13 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
     "yauzl": "^3.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haodijia/bilibili-desktop.git"
+  },
+  "homepage": "https://github.com/haodijia/bilibili-desktop",
+  "bugs": {
+    "url": "https://github.com/haodijia/bilibili-desktop/issues"
   }
 }

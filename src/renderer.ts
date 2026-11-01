@@ -1,4 +1,5 @@
 import type { BrowserAction, BrowserState } from './browser';
+document.documentElement.dataset.platform = window.browser.platform;
 
 const tabList = document.querySelector<HTMLDivElement>('#tabs')!;
 let currentId = 0;

@@ -24,7 +24,6 @@ const RELEASE_API =
   'https://api.github.com/repos/jiuyang5354/bilibili-margin/releases/latest';
 const RELEASE_DOWNLOAD =
   'https://github.com/jiuyang5354/bilibili-margin/releases/download/';
-const CHECK_INTERVAL = 6 * 60 * 60 * 1000;
 const MAX_DOWNLOAD = 32 * 1024 * 1024;
 const MAX_UNPACKED = 128 * 1024 * 1024;
 
@@ -194,6 +193,16 @@ export class MarginUpdater {
     }
   }
 
+  private async copyNotices(directory: string): Promise<void> {
+    for (const notice of ['LICENSE', 'ATTRIBUTION.md', 'fonts/licenses']) {
+      await cp(
+        path.join(this.options.bundledPath, notice),
+        path.join(directory, notice),
+        { recursive: true, force: false },
+      );
+    }
+  }
+
   async load(): Promise<Extension> {
     this.bundled = await manifestAt(this.options.bundledPath);
     if (!this.bundled.key) throw new Error('内置 MARGIN 缺少固定标识');
@@ -215,6 +224,7 @@ export class MarginUpdater {
     const manifest = await manifestAt(directory);
     if (manifest.version !== version || manifest.key !== this.bundled.key)
       throw new Error('已安装的 MARGIN 标识或版本不一致');
+    await this.copyNotices(directory);
     this.extension =
       await this.options.session.extensions.loadExtension(directory);
     await this.saveActive(version);
@@ -224,7 +234,6 @@ export class MarginUpdater {
 
   start(): void {
     setTimeout(() => void this.check(), 5000).unref();
-    setInterval(() => void this.check(), CHECK_INTERVAL).unref();
   }
 
   private async install(
@@ -276,6 +285,7 @@ export class MarginUpdater {
           '新版 MARGIN 需要不同的网页访问权限，请先更新 Bilibili 应用',
         );
       manifest.key = this.bundled.key;
+      await this.copyNotices(pendingPath);
       await writeFile(
         path.join(pendingPath, 'manifest.json'),
         `${JSON.stringify(manifest, null, 2)}\n`,

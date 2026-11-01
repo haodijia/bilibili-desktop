@@ -1,8 +1,7 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { MakerZIP } from '@electron-forge/maker-zip';
-import { MakerDeb } from '@electron-forge/maker-deb';
-import { MakerRpm } from '@electron-forge/maker-rpm';
+import { MakerDMG } from '@electron-forge/maker-dmg';
 import { VitePlugin } from '@electron-forge/plugin-vite';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
@@ -10,17 +9,24 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    icon: 'assets/bilibili.icns',
+    icon: 'assets/bilibili',
     appBundleId: 'com.electron.bili-desktop',
     appCategoryType: 'public.app-category.entertainment',
-    extraResource: ['extensions/margin'],
+    extraResource: [
+      'extensions/margin',
+      'LICENSE',
+      'THIRD_PARTY_NOTICES.md',
+      'licenses',
+    ],
   },
   rebuildConfig: {},
   makers: [
-    new MakerSquirrel({}),
-    new MakerZIP({}, ['darwin']),
-    new MakerRpm({}),
-    new MakerDeb({}),
+    new MakerSquirrel({
+      name: 'BilibiliDesktop',
+      setupIcon: 'assets/bilibili.ico',
+    }),
+    new MakerZIP({}, ['darwin', 'win32']),
+    new MakerDMG({ format: 'ULFO', icon: 'assets/bilibili.icns' }),
   ],
   plugins: [
     new VitePlugin({

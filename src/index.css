@@ -41,6 +41,10 @@ button:focus-visible,
   background: var(--strip);
   -webkit-app-region: drag;
 }
+[data-platform='win32'] .tab-strip {
+  padding-left: 10px;
+  padding-right: 144px;
+}
 #tabs {
   display: flex;
   align-self: stretch;

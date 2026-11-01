@@ -20,6 +20,7 @@ export type BrowserAction =
   | { type: 'select' | 'close'; id: number };
 
 export interface BrowserAPI {
+  platform: string;
   act(action: BrowserAction): void;
   onState(listener: (state: BrowserState) => void): () => void;
   ready(): void;

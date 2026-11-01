@@ -5,12 +5,14 @@ import {
   dialog,
   ipcMain,
   Menu,
+  nativeTheme,
   session,
   WebContentsView,
   type WebContents,
   type WebContentsViewConstructorOptions,
 } from 'electron';
 import path from 'node:path';
+import squirrelStartup from 'electron-squirrel-startup';
 import { MarginUpdater } from './margin-updater';
 import {
   HOME_URL,
@@ -455,7 +457,17 @@ async function createWindow(): Promise<void> {
     title: 'Bilibili',
     backgroundColor: '#ffffff',
     titleBarStyle: 'hidden',
-    trafficLightPosition: { x: 16, y: 16 },
+    ...(process.platform === 'darwin'
+      ? { trafficLightPosition: { x: 16, y: 16 } }
+      : {
+          titleBarOverlay: {
+            height: TAB_STRIP_HEIGHT,
+            color: nativeTheme.shouldUseDarkColors ? '#191a1c' : '#e8eaed',
+            symbolColor: nativeTheme.shouldUseDarkColors
+              ? '#e3e3e3'
+              : '#333639',
+          },
+        }),
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       nodeIntegration: false,
@@ -492,8 +504,10 @@ async function createWindow(): Promise<void> {
 
 app.setName('Bilibili');
 app.setPath('userData', path.join(app.getPath('appData'), 'Bili Desktop'));
+if (process.platform === 'win32')
+  app.setAppUserModelId('com.squirrel.BilibiliDesktop.Bilibili');
 
-if (!app.requestSingleInstanceLock()) {
+if (squirrelStartup || !app.requestSingleInstanceLock()) {
   app.quit();
 } else {
   app.on('second-instance', () => {
