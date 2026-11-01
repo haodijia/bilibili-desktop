@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'"
+    />
+    <title>Bili Desktop</title>
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <header class="browser-chrome">
+      <div class="tab-strip">
+        <div id="tabs" role="tablist" aria-label="标签页"></div>
+        <button
+          id="new-tab"
+          class="icon-button new-tab"
+          title="新建标签页 (⌘T)"
+          aria-label="新建标签页"
+        >
+          ＋
+        </button>
+        <div class="drag-space"></div>
+      </div>
+      <nav class="toolbar" aria-label="浏览器工具栏">
+        <button id="back" class="icon-button" title="后退" aria-label="后退">
+          <svg viewBox="0 0 24 24"><path d="m14 6-6 6 6 6M8 12h12" /></svg>
+        </button>
+        <button id="forward" class="icon-button" title="前进" aria-label="前进">
+          <svg viewBox="0 0 24 24"><path d="m10 6 6 6-6 6M4 12h12" /></svg>
+        </button>
+        <button
+          id="reload"
+          class="icon-button"
+          title="重新加载 (⌘R)"
+          aria-label="重新加载"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M19 8a8 8 0 1 0 1 7M19 3v5h-5" />
+          </svg>
+        </button>
+        <button
+          id="home"
+          class="icon-button"
+          title="哔哩哔哩首页"
+          aria-label="首页"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="m3 11 9-8 9 8M5 10v11h5v-7h4v7h5V10" />
+          </svg>
+        </button>
+        <form id="address-form" class="address-bar">
+          <span class="site-mark" aria-hidden="true">▤</span>
+          <input
+            id="address"
+            aria-label="输入网址或搜索 B 站"
+            placeholder="搜索 B 站，或输入网址"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span id="status" role="status" hidden></span>
+        </form>
+        <button
+          id="margin"
+          class="margin-button"
+          title="MARGIN 设置"
+          aria-label="MARGIN 设置"
+          aria-expanded="false"
+        >
+          <span class="margin-mark">M</span><span>MARGIN</span>
+        </button>
+      </nav>
+    </header>
+    <script type="module" src="/src/renderer.ts"></script>
+  </body>
+</html>

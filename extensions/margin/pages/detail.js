@@ -1,0 +1,70 @@
+import{Q as e,et as t,nt as n,ut as r}from"./chunk-CrH6vzLt.js";import{t as i}from"./chunk-CGRVFWz9.js";import{r as a,t as o}from"./chunk-Cn5SfLXr.js";import{n as s,r as c}from"./chunk-C_5_a2OY.js";var l=[{key:`like`,label:`点赞`,path:`<path d="M7 10v10H4V10zM7 10l4-7c1.7 0 2.8 1.3 2.5 3L13 9h5.6a2 2 0 0 1 2 2.4l-1.4 7A2 2 0 0 1 17.2 20H7"/>`},{key:`coin`,label:`投币`,path:`<circle cx="12" cy="12" r="8.5"/><path d="M9 9.5h6M12 9.5V16"/>`},{key:`favorite`,label:`收藏`,path:`<path d="m12 3.8 2.5 5.1 5.6.8-4 4 .9 5.6-5-2.7-5 2.7.9-5.6-4-4 5.6-.8z"/>`},{key:`forward`,label:`转发`,path:`<path d="M14 5l6 6-6 6M20 11H10a6 6 0 0 0-6 6v1"/>`},{key:`comment`,label:`评论`,path:`<path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-4 3v-3H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/>`}],u=`
+:host { all: initial; position: fixed; top: 96px; z-index: 30; width: 272px; display: block; color: var(--m-ink); font: 14px/1.5 "Geist", "Margin Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+:host([hidden]) { display: none; }
+* { box-sizing: border-box; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; border-radius: 8px; }
+aside { display: flex; flex-direction: column; gap: 32px; max-height: calc(100vh - 120px); overflow: auto; scrollbar-width: none; padding: 2px; }
+aside::-webkit-scrollbar { display: none; }
+
+/* 作者卡：rounded border p-5，头像 44、名字 14 semibold、副标题 12、简介 14、描边小按钮 */
+.author { display: flex; flex-direction: column; gap: 16px; padding: 20px; border-radius: 20px; border: 1px solid var(--m-line);
+  background: color-mix(in srgb, var(--m-surface) 72%, transparent); backdrop-filter: blur(20px) saturate(1.4); box-shadow: var(--sh-xs); }
+.who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.who img { width: 44px; height: 44px; flex: none; border-radius: 999px; object-fit: cover; box-shadow: 0 0 0 1px var(--m-line); background: var(--m-chip); }
+.who div { display: flex; flex-direction: column; min-width: 0; }
+.who b { font-weight: 600; font-size: 14px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.who small { font-size: 12px; line-height: 16px; color: var(--m-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.who small .num { font-family: var(--m-mono); }
+.sign { margin: 0; font-size: 14px; line-height: 20px; color: var(--m-muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.row { display: flex; gap: 8px; }
+.btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 10px; font-size: 13px; font-weight: 500;
+  border: 1px solid var(--m-line); background: var(--m-surface); color: var(--m-ink); box-shadow: var(--sh-xs); transition: background-color .15s, color .15s, border-color .15s, transform .15s cubic-bezier(.23,1,.32,1); }
+.btn:hover { background: var(--m-chip); }
+.btn:active { transform: scale(.97); }
+.btn.solid { background: var(--m-ink); color: var(--m-canvas); border-color: transparent; }
+.btn.solid:hover { background: color-mix(in srgb, var(--m-ink) 86%, transparent); }
+.btn svg { width: 16px; height: 16px; }
+
+/* 小节标题：12px 大写字距（中文标签 + mono 英文） */
+.sec { display: flex; flex-direction: column; gap: 12px; }
+.sec h3 { margin: 0; display: flex; align-items: baseline; gap: 8px; font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: .08em; color: var(--m-muted); }
+.sec h3 i { font: normal 500 10px/16px var(--m-mono); letter-spacing: .2em; color: var(--m-faint); text-transform: uppercase; }
+.sec h3 .pct { margin-left: auto; font: 500 11px/16px var(--m-mono); letter-spacing: .04em; color: var(--m-muted); }
+.bar { height: 2px; border-radius: 2px; background: var(--m-line); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 100%; transform-origin: left; transform: scaleX(var(--p, 0)); background: var(--m-ink); transition: transform .2s linear; }
+
+/* 目录 */
+.toc { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.toc a { display: block; padding: 6px 0 6px 12px; border-left: 2px solid var(--m-line); font-size: 13px; line-height: 20px; color: var(--m-muted); transition: color .15s, border-color .15s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.toc a[data-lv="3"], .toc a[data-lv="4"] { padding-left: 24px; }
+.toc a:hover { color: var(--m-ink); }
+.toc a.on { color: var(--m-ink); border-left-color: var(--m-ink); font-weight: 500; }
+
+/* 相关：标题 14 medium + 12 次要信息，悬停变淡 */
+.rel { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.rel a { display: grid; grid-template-columns: 88px 1fr; gap: 12px; align-items: start; }
+.rel img { width: 88px; height: 56px; border-radius: 8px; object-fit: cover; background: var(--m-chip); box-shadow: 0 0 0 1px var(--m-line); }
+.rel span { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.rel b { font-size: 13px; line-height: 20px; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color .15s; }
+.rel a:hover b { color: var(--m-muted); }
+.rel small { font: 11px/16px var(--m-mono); color: var(--m-muted); }
+
+hr { margin: 0; border: 0; height: 1px; background: var(--m-line); }
+
+/* 底部操作区（原组件的订阅表单位置） */
+.acts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 4px; border-radius: 16px; background: var(--m-chip); box-shadow: var(--ring); }
+.act[hidden] { display: none; }
+.act { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 6px; border-radius: 12px; color: var(--m-muted); transition: background-color .15s, color .15s, transform .15s cubic-bezier(.23,1,.32,1); }
+.act:hover { background: var(--m-surface); color: var(--m-ink); box-shadow: var(--sh-xs); }
+.act:active { transform: scale(.95); }
+.act svg { width: 20px; height: 20px; }
+.act small { font: 11px/16px var(--m-mono); }
+.act.on { color: var(--m-accent); }
+.act.on svg { fill: color-mix(in srgb, currentColor 18%, transparent); }
+.hint { margin: 0; font-size: 12px; line-height: 16px; color: var(--m-muted); }
+.hint kbd { font: 11px/1 var(--m-mono); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--m-line); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+`,d={opus:`.opus-detail`,read:`.opus-detail, .article-container, .article-detail, #app > .container`,dyn:`#app .content`},f={opus:`.opus-module-content`,read:`.opus-module-content, #read-article-holder, .article-content`,dyn:`.bili-dyn-item__body`};async function p(e){for(let e of document.scripts){let t=e.textContent??``;if(!t.includes(`__INITIAL_STATE__`))continue;let n=t.match(/"module_author":\{[^]*?"mid":(\d+)/)??t.match(/"author":\{[^}]*?"mid":(\d+)/);if(n)return Number(n[1])}let t=location.pathname.match(/(\d{6,})/)?.[1];if(t&&e!==`read`){let e=(await r(`/x/polymer/web-dynamic/v1/detail`,{id:t,features:`itemOpusStyle`}).catch(()=>null))?.item?.modules?.module_author?.mid;if(e)return Number(e)}let n=document.querySelector(`.bili-dyn-item__avatar a[href*="space.bilibili.com"], .up-name[href*="space.bilibili.com"], a.up-face[href*="space.bilibili.com"]`);return Number(n?.href.match(/space\.bilibili\.com\/(?:[a-z-]+\/)?(\d+)/i)?.[1]??0)}async function m(e){let t=await r(`/x/web-interface/card`,{mid:e,photo:`false`}).catch(()=>null);if(!t?.card)return null;let n=t.card;return{mid:e,name:n.name,face:c(n.face),sign:n.sign??``,fans:n.fans??t.follower??0,following:!!t.following,official:n.Official?.title||n.official_verify?.desc||``}}var h=class{kind;host=t(`div`,{id:`margin-aside`});root;aside=t(`aside`,{"aria-label":`作者与目录`});main=null;toolbar=null;acts=/* @__PURE__ */ new Map;disposers=[];constructor(e){this.kind=e,this.root=this.host.attachShadow({mode:`open`}),this.root.append(t(`style`,{},u),this.aside),this.host.hidden=!0,document.documentElement.append(this.host),this.waitMain()}waitMain(){let e=performance.now(),t=()=>{if(this.main=document.querySelector(d[this.kind]),this.main&&this.main.getBoundingClientRect().height>40)return this.ready();performance.now()-e<2e4&&setTimeout(t,250)};t()}ready(){let e=this.main,n=()=>{let t=e.getBoundingClientRect(),n=Math.round(t.right+48),r=n+272<=innerWidth-16;this.host.hidden=!r,document.documentElement.classList.toggle(`margin-detail-narrow`,!r),r&&(this.host.style.left=`${n}px`)},r=new ResizeObserver(n);r.observe(e),r.observe(document.documentElement),addEventListener(`resize`,n,{passive:!0}),this.disposers.push(()=>r.disconnect()),n(),this.aside.append(this.authorSkeleton(),this.tocSection(),this.relatedSection(),t(`hr`),this.actionSection()),this.loadAuthor()}authorEl=t(`div`,{class:`author`});authorSkeleton(){return this.authorEl.append(t(`div`,{class:`who`},t(`img`,{alt:``}),t(`div`,{},t(`b`,{},` `),t(`small`,{},` `)))),this.authorEl}async loadAuthor(){let n=await p(this.kind).catch(()=>0);if(!n){this.authorEl.remove(),this.relEl.remove();return}let r=await m(n);if(!r){this.authorEl.remove();return}let i=`https://space.bilibili.com/${r.mid}`,a=t(`button`,{class:`btn${r.following?``:` solid`}`,type:`button`},r.following?`已关注`:`关注`);a.addEventListener(`click`,async()=>{let e=s();if(!e){location.href=`https://passport.bilibili.com/login?gourl=`+encodeURIComponent(location.href);return}a.disabled=!0;let t=await o(r.mid,!r.following,e).catch(()=>!1);a.disabled=!1,t&&(r.following=!r.following,a.textContent=r.following?`已关注`:`关注`,a.classList.toggle(`solid`,!r.following))});let c=t(`small`,{},r.official||``,r.official?` · `:``,t(`span`,{class:`num`},e(r.fans)),` 粉丝`);this.authorEl.replaceChildren(t(`a`,{class:`who`,href:i,target:`_blank`,rel:`noopener`},t(`img`,{src:r.face+`@96w_96h_1c.webp`,alt:r.name,loading:`lazy`}),t(`div`,{},t(`b`,{},r.name),c)),r.sign?t(`p`,{class:`sign`},r.sign):``,t(`div`,{class:`row`},a,t(`a`,{class:`btn`,href:i,target:`_blank`,rel:`noopener`},`空间`))),this.loadRelated(r.mid)}tocSection(){let e=document.querySelector(f[this.kind]),n=t(`div`,{class:`sec`}),r=t(`span`,{class:`pct`},`0%`),i=t(`div`,{class:`bar`},t(`i`)),a=(e?.innerText??``).replace(/\s/g,``).length,o=Math.max(1,Math.round(a/400));n.append(t(`h3`,{},`阅读`,t(`i`,{},`${o} MIN`),r),i);let s=e?[...e.querySelectorAll(`h1, h2, h3, h4`)].filter(e=>e.innerText.trim()):[],c=[];if(s.length>=2){let e=t(`ul`,{class:`toc`});for(let n of s.slice(0,24)){let r=t(`a`,{href:`#`,"data-lv":n.tagName[1]},n.innerText.trim());r.addEventListener(`click`,e=>{e.preventDefault(),scrollTo({top:n.getBoundingClientRect().top+scrollY-96,behavior:`smooth`})}),e.append(t(`li`,{},r)),c.push([n,r])}n.append(e)}let l=!1,u=()=>{if(l=!1,!e)return;let t=e.getBoundingClientRect(),n=Math.min(1,Math.max(0,(innerHeight*.6-t.top)/Math.max(1,t.height)));i.firstElementChild.style.setProperty(`--p`,n.toFixed(3)),r.textContent=`${Math.round(n*100)}%`;let a=null;for(let[e,t]of c)e.getBoundingClientRect().top<140&&(a=t);for(let[,e]of c)e.classList.toggle(`on`,e===a)},d=()=>{l||(l=!0,requestAnimationFrame(u))};return addEventListener(`scroll`,d,{passive:!0}),this.disposers.push(()=>removeEventListener(`scroll`,d)),u(),n}relEl=t(`div`,{class:`sec`});relatedSection(){return this.relEl.hidden=!0,this.relEl}async loadRelated(n){let r=(await a(n,1,`pubdate`).catch(()=>null))?.list.slice(0,3)??[];if(!r.length){this.relEl.remove();return}let i=t(`ul`,{class:`rel`});for(let n of r)i.append(t(`li`,{},t(`a`,{href:`https://www.bilibili.com/video/${n.bvid}`,target:`_blank`,rel:`noopener`},t(`img`,{src:n.cover+`@176w_112h_1c.webp`,alt:``,loading:`lazy`}),t(`span`,{},t(`b`,{},n.title),t(`small`,{},`${e(n.views)} 播放`)))));this.relEl.replaceChildren(t(`h3`,{},`UP 主最近`,t(`i`,{},`Related`)),i),this.relEl.hidden=!1}actionSection(){let e=t(`div`,{class:`sec`}),r=t(`div`,{class:`acts`});for(let e of l){let i=t(`button`,{class:`act`,type:`button`,"aria-label":e.label,title:e.label,"data-k":e.key},n(e.path),t(`small`,{},e.label));i.addEventListener(`click`,()=>{e.key===`comment`?document.querySelector(`.bili-tabs, #comment-module, bili-comments`)?.scrollIntoView({behavior:`smooth`,block:`start`}):this.native(e.key)?.click()}),this.acts.set(e.key,i),r.append(i)}return e.append(r,t(`p`,{class:`hint`},`投币、收藏、转发用的是 B 站原生弹窗`)),this.syncToolbar(),e}native(e){return this.toolbar??=document.querySelector(`.side-toolbar`),this.toolbar?.querySelector(`.side-toolbar__action.${e}`)??null}syncToolbar(){let e=()=>{for(let[e,t]of this.acts){if(e===`comment`){let e=this.native(`comment`)?.querySelector(`.side-toolbar__action__text`)?.textContent?.trim();e&&/\d/.test(e)&&(t.lastElementChild.textContent=e);continue}let n=this.native(e);if(t.hidden=!n,!n)continue;let r=n.querySelector(`.side-toolbar__action__text`)?.textContent?.trim();t.lastElementChild.textContent=r&&/\d/.test(r)?r:l.find(t=>t.key===e).label;let i=/\b(?:is-active|active|on|is-on|liked|selected)\b/.test(n.className)||n.classList.contains(`side-toolbar__action--active`);t.classList.toggle(`on`,i),t.setAttribute(`aria-pressed`,String(i))}let e=[...this.acts.values()].filter(e=>!e.hidden).length;this.acts.get(`like`).parentElement.style.gridTemplateColumns=`repeat(${e}, 1fr)`},t=null,n=()=>{this.toolbar=document.querySelector(`.side-toolbar`),this.toolbar?(e(),t=new MutationObserver(e),t.observe(this.toolbar,{subtree:!0,childList:!0,characterData:!0,attributes:!0,attributeFilter:[`class`]})):setTimeout(n,500)};n(),this.disposers.push(()=>t?.disconnect())}};function g(e){return i(e===`bangumi`?void 0:{"bili-comments-header-renderer":`#title { display: none !important; } #sort-actions { margin-left: 0 !important; }`}),e===`bangumi`?null:new h(e)}export{g as mountDetail};
