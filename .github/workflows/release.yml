@@ -37,6 +37,9 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run make -- --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+      - name: Verify macOS code integrity
+        if: matrix.platform == 'darwin'
+        run: codesign --verify --deep --strict "out/Bilibili-darwin-${{ matrix.arch }}/Bilibili.app"
       - run: node scripts/collect-release.mjs ${{ matrix.platform }} ${{ matrix.arch }}
       - uses: actions/upload-artifact@v4
         with:

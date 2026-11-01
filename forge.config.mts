@@ -12,6 +12,13 @@ const config: ForgeConfig = {
     icon: 'assets/bilibili',
     appBundleId: 'com.electron.bili-desktop',
     appCategoryType: 'public.app-category.entertainment',
+    osxSign: {
+      identity: '-',
+      identityValidation: false,
+      preAutoEntitlements: false,
+      preEmbedProvisioningProfile: false,
+      optionsForFile: () => ({ hardenedRuntime: false, timestamp: 'none' }),
+    },
     extraResource: [
       'extensions/margin',
       'LICENSE',
