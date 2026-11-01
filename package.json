@@ -48,5 +48,11 @@
   "homepage": "https://github.com/haodijia/bilibili-desktop",
   "bugs": {
     "url": "https://github.com/haodijia/bilibili-desktop/issues"
+  },
+  "allowScripts": {
+    "fs-xattr@0.3.1": true,
+    "macos-alias@0.2.12": true,
+    "electron-winstaller@5.4.4": true,
+    "electron@45.2.1": true
   }
 }

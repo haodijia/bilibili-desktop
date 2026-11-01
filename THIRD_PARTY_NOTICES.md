@@ -27,6 +27,8 @@ MARGIN 随包提供字体及子集；它们不受本项目代码的 MIT 许可�
 
 中文字体子集与切片由 MARGIN 提供，保留其派生命名。原始字体来源、构建方式和子集说明见 [MARGIN 字体说明](extensions/margin/fonts/FONTS-LICENSES.md) 与[上游 fonts-src](https://github.com/jiuyang5354/bilibili-margin/tree/main/fonts-src)。
 
+原始字体获取与替换方法见 [字体替换说明](licenses/fonts/REPLACEMENT.md)。
+
 ## 运行时依赖
 
 - Electron / Chromium / Node.js：各自的许可证随 Electron 分发包保留，包括 `LICENSE` 与 `LICENSES.chromium.html`。
