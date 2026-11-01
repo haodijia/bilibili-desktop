@@ -1,4 +1,4 @@
-# Bili Desktop
+# Bilibili
 
 独立的哔哩哔哩桌面浏览器，使用 B 站网页与 MARGIN 0.40.0 扩展。
 
@@ -24,7 +24,7 @@ npm run lint
 npm run package
 ```
 
-macOS Apple Silicon 的应用生成在 `out/Bili Desktop-darwin-arm64/Bili Desktop.app`，可复制到“应用程序”并保留在 Dock。
+macOS Apple Silicon 的应用生成在 `out/Bilibili-darwin-arm64/Bilibili.app`，可复制到“应用程序”并保留在 Dock。
 
 ## 快捷键
 

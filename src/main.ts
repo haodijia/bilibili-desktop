@@ -82,7 +82,7 @@ function publish(): void {
     canGoForward: contents?.navigationHistory.canGoForward() ?? false,
     marginOpen: popup !== null,
   });
-  win.setTitle(`${activeTab()?.state.title ?? '哔哩哔哩'} — Bili Desktop`);
+  win.setTitle(`${activeTab()?.state.title ?? '哔哩哔哩'} — Bilibili`);
 }
 
 function layout(): void {
@@ -482,7 +482,7 @@ async function createWindow(): Promise<void> {
     height: 960,
     minWidth: 800,
     minHeight: 550,
-    title: 'Bili Desktop',
+    title: 'Bilibili',
     backgroundColor: '#ffffff',
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 16, y: 16 },
@@ -519,6 +519,9 @@ async function createWindow(): Promise<void> {
     );
   createTab(HOME_URL);
 }
+
+app.setName('Bilibili');
+app.setPath('userData', path.join(app.getPath('appData'), 'Bili Desktop'));
 
 if (!app.requestSingleInstanceLock()) {
   app.quit();
@@ -560,7 +563,7 @@ if (!app.requestSingleInstanceLock()) {
       });
     })
     .catch((error: unknown) => {
-      dialog.showErrorBox('Bili Desktop 启动失败', String(error));
+      dialog.showErrorBox('Bilibili 启动失败', String(error));
       app.quit();
     });
   app.on('window-all-closed', () => {

@@ -49,5 +49,6 @@
         "https://*.bilibili.com/*"
       ]
     }
-  ]
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw9snkL6HaKORd/gmLBMcMLrgvCLTN669LQQ/REY4YJsWBUVL1L2qHj/xrCHf6xNSnzj6PREv1BcWLDoX1XoXZth9gbAlljTKyu1q4jBFfm8oTEpu2x5yJtM4aBhvDgQpi/IKQZUrWijz38j8TBKb2VAwk2hhxl9SOPNyrBFl7H37ul55SatiFHiRP6unxRfcWO38+iEINytMxU10fnVxtoaNsGSNZLHxsG+8EmFYx6xp5M5PJaW0dK4v0Zk4D4DbfHL/Zx3dc30Dojme5hqrdc03Sg7kvNH9glbAdP87ImbgNjrJDxVkUYQ0B4rmYOnMBbLxBumqaa7U942QY68p3wIDAQAB"
 }

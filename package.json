@@ -1,6 +1,6 @@
 {
   "name": "bili-desktop",
-  "productName": "Bili Desktop",
+  "productName": "Bilibili",
   "version": "1.0.0",
   "private": true,
   "description": "支持多标签页与 MARGIN 扩展的哔哩哔哩桌面浏览器",
